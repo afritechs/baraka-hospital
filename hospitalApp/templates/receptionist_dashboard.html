@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .img-card{
+    padding-top: 55px;
+  }
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .image-container {
+    text-align: center;
+  }
+  .h-txt{
+    text-align: center;
+  }
+</style>
+<title><h1>Welcome, Receptionist {{ user.first_name }} {{ user.last_name }}</h1></title>
+  <div class="container img-card">
+    <h4 class="h-txt">Registered Patients</h4>
+    <div class="row">
+      {% for patient in patients %}
+        <div class="col-md-4 mb-4">
+          <div class="card  ">
+            <div class="card-body">
+              <p class="card-title">Patient: {{ patient.first_name }} {{ patient.last_name }}</p>
+              <p class="card-text">Registered by: {{ patient.receptionist.first_name }} {{ patient.receptionist.last_name }}</p>
+              <p class="card-text">Registered at: {{ patient.registration_time }}</p>
+              <div style="text-align: center;">
+                <img src="{{ patient.image.url }}" alt="{{ patient.first_name }} {{ patient.last_name }}" class="rounded-circle" style="max-width: 90px; max-height: 90px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
