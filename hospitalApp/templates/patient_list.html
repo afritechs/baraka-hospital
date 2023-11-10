@@ -26,7 +26,7 @@
           <div class="card  ">
             <div class="card-body">
               <p class="card-title">Patient: {{ patient.first_name }} {{ patient.last_name }}</p>
-              <p class="card-text">Registered by: {{ patient.receptionist.first_name }}</p>
+              <p class="card-text">Registered by: {{ patient.receptionist.first_name }} {{ patient.receptionist.last_name }}</p>
               <p class="card-text">Registered at: {{ patient.registration_time }}</p>
               <div style="text-align: center;">
                 <img src="{{ patient.image.url }}" alt="{{ patient.first_name }} {{ patient.last_name }}" class="rounded-circle" style="max-width: 90px; max-height: 90px;">

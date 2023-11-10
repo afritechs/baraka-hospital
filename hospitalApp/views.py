@@ -9,8 +9,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.conf import settings
 from .forms import SignUpForm, EmailAuthenticationForm
-from .models import Patient, Appointment,Service, WorkField
-from .forms import AppointmentForm, ServiceForm
+from .models import Patient, Appointment,Service, WorkField, DoctorNote
+from .forms import AppointmentForm, ServiceForm, DoctorNoteForm
 from django.http import JsonResponse
 from .models import Patient
 
@@ -104,8 +104,6 @@ def doctor_dashboard(request):
 
     return render(request, 'doctor_dashboard.html', context)
 
-
-
 @login_required
 def receptionist_dashboard(request):
     patients = Patient.objects.all()
@@ -180,3 +178,41 @@ def service_delete(request, service_id):
         service.delete()
         return redirect('service-list')
     return render(request, 'service_delete.html', {'service': service})
+
+
+@login_required
+def patient_create_note(request, patient_id):
+    if request.method == 'POST':
+        form = DoctorNoteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('patient-detail-note', patient_id=patient_id)
+    else:
+        form = DoctorNoteForm(initial={'patient': patient_id, 'doctor': request.user.id})
+    return render(request, 'patient_create_note.html', {'form': form})
+
+
+@login_required
+def patient_detail_note(request, patient_id):
+    patient_notes = DoctorNote.objects.filter(patient_id=patient_id)
+    return render(request, 'patient_detail_note.html', {'patient_notes': patient_notes, 'patient_id': patient_id})
+
+@login_required
+def patient_update_note(request, note_id):
+    note = get_object_or_404(DoctorNote, id=note_id)
+    if request.method == 'POST':
+        form = DoctorNoteForm(request.POST, instance=note)
+        if form.is_valid():
+            form.save()
+            return redirect('patient-detail-note', patient_id=note.patient_id)
+    else:
+        form = DoctorNoteForm(instance=note)
+    return render(request, 'patient_update_note.html', {'form': form, 'note': note})
+
+@login_required
+def patient_delete_note(request, note_id):
+    note = get_object_or_404(DoctorNote, id=note_id)
+    if request.method == 'POST':
+        note.delete()
+        return redirect('patient-detail-note', patient_id=note.patient_id)
+    return render(request, 'patient_delete_note.html', {'note': note})

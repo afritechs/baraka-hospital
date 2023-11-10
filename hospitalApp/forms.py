@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
-from .models import Appointment, Service
+from .models import Appointment, Service, DoctorNote
 
 class BootstrapStyleForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -81,3 +81,13 @@ class ServiceForm(forms.ModelForm):
         'price': 'Price',
     }
 
+
+
+class DoctorNoteForm(forms.ModelForm):
+    class Meta:
+        model = DoctorNote
+        fields = ['patient', 'doctor', 'symptoms']
+        widgets = {
+            'patient': forms.HiddenInput(),
+            'doctor': forms.HiddenInput(),
+        }

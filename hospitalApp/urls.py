@@ -28,6 +28,12 @@ urlpatterns = [
     path('<int:service_id>/update/', views.service_update, name='service-update'),
     path('<int:service_id>/delete/', views.service_delete, name='service-delete'),
     
+    path('patient-create-note/<int:patient_id>/', views.patient_create_note, name='patient-create-note'),
+    path('patient-detail-note/<int:patient_id>/', views.patient_detail_note, name='patient-detail-note'),
+    path('patient-update-note/<int:note_id>/', views.patient_update_note, name='patient-update-note'),
+    path('patient-delete-note/<int:note_id>/', views.patient_delete_note, name='patient-delete-note'),
+
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

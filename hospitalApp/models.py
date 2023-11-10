@@ -58,3 +58,17 @@ class Service(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class DoctorNote(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(WorkField, on_delete=models.CASCADE)
+    note_date = models.DateTimeField(auto_now_add=True)
+    symptoms = models.TextField()
+    
+    def is_doctor(self):
+        return self.doctor.area_of_specialist == 'Doctor'
+
+    def __str__(self):
+        specialist_type = "Doctor" if self.is_doctor() else "Receptionist"
+        return f"Note for {self.patient.first_name} by {specialist_type} {self.doctor.first_name} on {self.note_date}"

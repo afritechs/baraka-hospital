@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Patient, WorkField, Appointment,Service
+from .models import Patient, WorkField, Appointment,Service, DoctorNote
 
 class WorkFieldAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'area_of_specialist', 'email', 'phone')
@@ -22,8 +22,13 @@ class ServiceAdmin(admin.ModelAdmin):
     list_display = ('name', 'price','description')
     list_filter = ('name', 'price')
     search_fields = ('name', 'description')
+    
+class DoctorNoteAdmin(admin.ModelAdmin):
+    list_display = ('patient', 'doctor', 'note_date', 'symptoms')
+    search_fields = ('patient__first_name', 'patient__last_name', 'doctor__first_name', 'doctor__last_name')
 
 admin.site.register(WorkField, WorkFieldAdmin)
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(Appointment, AppointmentAdmin)
 admin.site.register(Service, ServiceAdmin)
+admin.site.register(DoctorNote, DoctorNoteAdmin)
