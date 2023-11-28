@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import Patient, WorkField, Appointment,Service, DoctorNote
+from .models import Patient, Specialist, Appointment,Service, DoctorNote, PatientSummary, DentalInformation
 
-class WorkFieldAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'area_of_specialist', 'email', 'phone')
+class SpecialistAdmin(admin.ModelAdmin):
+    list_display = ('user','first_name', 'last_name', 'area_of_specialist', 'email', 'phone')
     list_filter = ('area_of_specialist', 'gender')
     search_fields = ('first_name', 'last_name', 'email', 'phone')
 
@@ -27,7 +27,22 @@ class DoctorNoteAdmin(admin.ModelAdmin):
     list_display = ('patient', 'doctor', 'note_date', 'symptoms')
     search_fields = ('patient__first_name', 'patient__last_name', 'doctor__first_name', 'doctor__last_name')
 
-admin.site.register(WorkField, WorkFieldAdmin)
+
+
+class PatientSummaryAdmin(admin.ModelAdmin):
+    list_display = ['id', 'service', 'summary_note']
+    search_fields = ['service', 'patient__first_name', 'patient__last_name']
+
+    def service_name(self, obj):
+        return obj.service.name
+
+class DentalInformationAdmin(admin.ModelAdmin):
+    list_display = ('patient_name', 'last_dental_visit')
+    search_fields = ('patient_name',)
+
+admin.site.register(DentalInformation, DentalInformationAdmin)
+admin.site.register(PatientSummary, PatientSummaryAdmin)
+admin.site.register(Specialist, SpecialistAdmin)
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(Appointment, AppointmentAdmin)
 admin.site.register(Service, ServiceAdmin)

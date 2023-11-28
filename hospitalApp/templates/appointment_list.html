@@ -18,6 +18,7 @@
         <th>Patient Name</th>
         <th>Doctor</th>
         <th>Time to Meet Doctor</th>
+        <th>Appointment Done?</th>
       </tr>
     </thead>
     <tbody>
@@ -26,6 +27,13 @@
           <td>{{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</td>
           <td>{{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</td>
           <td>{{ appointment.appointment_date }}</td>
+          <td>
+            {% if appointment.is_confirmed %}
+              <span>&#10003;</span> <!-- Checkmark symbol -->
+            {% else %}
+              <span>&#10007;</span> <!-- Cross symbol -->
+            {% endif %}
+          </td>
       {% endfor %}
     </tbody>
   </table>

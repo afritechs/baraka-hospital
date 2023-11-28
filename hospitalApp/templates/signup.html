@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
   <div class="container mt-5">
     <div class="row justify-content-center">
@@ -8,6 +8,8 @@
           <div class="card-header">
             <h2 class="text-center">Signup</h2>
           </div>
+          <img src="{% static 'images/barakalogo.png' %}" alt="baraka" class="mx-auto d-block" style="width: 100px; height: 100px;">
+
           <div class="card-body">
             <form method="post" action="{% url 'user-create' %}" enctype="multipart/form-data">
               {% csrf_token %}

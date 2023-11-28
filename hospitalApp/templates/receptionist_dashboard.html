@@ -3,7 +3,7 @@
 {% block content %}
 <style>
   .img-card{
-    padding-top: 55px;
+    padding-top: 5px;
   }
   .card-body {
     display: flex;
@@ -20,8 +20,13 @@
     text-align: center;
   }
 </style>
-<title><h1>Welcome, Receptionist {{ user.first_name }} {{ user.last_name }}</h1></title>
-  <div class="container img-card">
+<div class="container img-card">
+  {% if user.is_authenticated and user.specialist.area_of_specialist == 'Receptionist' %}
+    <p class="list-font-weight">Welcome, Rec {{ user.first_name|upper }} {{ user.last_name|upper }}.</p>
+  {% endif %}
+  <div class="row">
+    <a href="{% url 'patient-create' %}" class="btn btn-success">Create patient</a>
+  </div>
     <h4 class="h-txt">Registered Patients</h4>
     <div class="row">
       {% for patient in patients %}
@@ -33,6 +38,9 @@
               <p class="card-text">Registered at: {{ patient.registration_time }}</p>
               <div style="text-align: center;">
                 <img src="{{ patient.image.url }}" alt="{{ patient.first_name }} {{ patient.last_name }}" class="rounded-circle" style="max-width: 90px; max-height: 90px;">
+              </div>
+              <div style="text-align: center;">
+                <small class="text-muted">patient</small>
               </div>
             </div>
           </div>
